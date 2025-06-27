@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Resetting UFW and setting default policies..."
+sudo apt update && sudo apt install ufw -y
 sudo ufw --force reset
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
