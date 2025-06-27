@@ -39,6 +39,21 @@ for rule in \
 done
 # Optional: block all high UDP ports (commented out)
 # sudo ufw deny out 1024:65535/udp
+echo "[+] Allowing Discord ports..."
+sudo ufw allow out 3478:3480/udp
+sudo ufw allow out 50000:65535/udp
+
+# Honkai: Star Rail - Android
+echo "[+] Allowing Honkai: Star Rail ports..."
+
+sudo ufw allow out 80/tcp
+sudo ufw allow out 443/tcp
+sudo ufw allow out 443/udp
+
+sudo ufw allow out 22101:22102/udp
+sudo ufw allow out 5056:5059/udp
+sudo ufw allow out 5056:5059/tcp
+
 
 echo "[+] Allowing messaging and media app ports..."
 for port in 443 3478 19302; do
