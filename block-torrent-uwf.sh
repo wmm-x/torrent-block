@@ -10,109 +10,55 @@ sudo ufw default allow outgoing
 
 echo "[+] Setting up UFW rules..."
 
-# Define port rules once
-INBOUND_TCP_PORTS=(22 8000 2052 2053 2086 2087 2095 2096 8443 8880 8080 8888 80 443)
-INBOUND_UDP_PORTS=(8000)
+# Inbound IPv4
+for port in 22 8000; do sudo ufw allow in "$port"/tcp; done
+sudo ufw allow in 8000/udp
+for port in 2052 2053 2086 2087 2095 2096 8443 8880 8080 8888 80 443; do
+    sudo ufw allow in "$port"/tcp
+done
 
-OUTBOUND_DNS_PORTS=(53)
-OUTBOUND_HTTP_PORTS=(80 443 2052 2053 2086 2087 2095 2096 8443 8880 8080)
-OUTBOUND_UDP_MEDIA=(443 3478 19302)
+# Outbound IPv4
+sudo ufw allow out 53
+for port in 80 443 2052 2053 2086 2087 2095 2096 8443 8880 8080; do
+    sudo ufw allow out "$port"/tcp
+done
 
-TORRENT_TCP_RULES=("6881:6889" "6969" "1337" "2710" "8999" "42069" "16881")
-TORRENT_UDP_RULES=("6881:6889" "8999" "42069" "16881" "6880:6999")
-TORRENT_SINGLE_PORTS=(51413)
+# Torrent Block (IPv4)
+for rule in \
+  "6881:6889/tcp" "6881:6889/udp" "6969/tcp" "51413" "1337/tcp" "2710/tcp" \
+  "8999/tcp" "8999/udp" "42069/tcp" "42069/udp" "16881/tcp" "16881/udp" \
+  "6880:6999/tcp" "6880:6999/udp"; do
+    sudo ufw deny out $rule
+done
 
-GAME_UDP_PORTS=(
-  "7000:7500"
-  "10000:65535"
-  "30000:50000"
-  "10010:10030"
-  "20000:20100"
-  "7000:8000"
-  "10000:10010"
-  "5795:5847"
-  "1024:1124"
-  "3216:3728"
-  "5000:5500"
-  "27000:27100"
-  "30000:30100"
-  "5000:6000"
-)
+# Media & Messaging (IPv4)
+for port in 443 3478 19302; do sudo ufw allow out "$port"/udp; done
+sudo ufw allow out 3478:3481/udp
+sudo ufw allow out 49152:65535/udp
 
-GAME_TCP_PORTS=(
-  "1393"
-  "8180:8181"
-  "5222"
-  "8088"
-  "2099"
-  "27014:27050"
-  "8000"
-)
-
-# Apply rules to both IPv4 and IPv6
-apply_rules() {
-  local ip_version=$1
-
-  echo "  [*] Applying rules for $ip_version..."
-
-  # Inbound TCP
-  for port in "${INBOUND_TCP_PORTS[@]}"; do
-    sudo ufw allow in on "$ip_version" "$port"/tcp 2>/dev/null
-  done
-
-  # Inbound UDP
-  for port in "${INBOUND_UDP_PORTS[@]}"; do
-    sudo ufw allow in on "$ip_version" "$port"/udp 2>/dev/null
-  done
-
-  # Outbound DNS
-  for port in "${OUTBOUND_DNS_PORTS[@]}"; do
-    sudo ufw allow out on "$ip_version" "$port" 2>/dev/null
-  done
-
-  # Outbound HTTP/HTTPS
-  for port in "${OUTBOUND_HTTP_PORTS[@]}"; do
-    sudo ufw allow out on "$ip_version" "$port"/tcp 2>/dev/null
-  done
-
-  # Outbound UDP Media & Messaging
-  for port in "${OUTBOUND_UDP_MEDIA[@]}"; do
-    sudo ufw allow out on "$ip_version" "$port"/udp 2>/dev/null
-  done
-
-  # Torrent Block - TCP
-  for rule in "${TORRENT_TCP_RULES[@]}"; do
-    sudo ufw deny out on "$ip_version" "$rule"/tcp comment "block torrent" 2>/dev/null
-  done
-
-  # Torrent Block - UDP
-  for rule in "${TORRENT_UDP_RULES[@]}"; do
-    sudo ufw deny out on "$ip_version" "$rule"/udp comment "block torrent" 2>/dev/null
-  done
-
-  # Torrent Block - Single Ports
-  for port in "${TORRENT_SINGLE_PORTS[@]}"; do
-    sudo ufw deny out on "$ip_version" "$port" comment "block torrent" 2>/dev/null
-  done
-
-  # UDP Media & Messaging ranges
-  sudo ufw allow out on "$ip_version" 3478:3481/udp 2>/dev/null
-  sudo ufw allow out on "$ip_version" 49152:65535/udp 2>/dev/null
-
-  # Game UDP ports
-  for port_range in "${GAME_UDP_PORTS[@]}"; do
-    sudo ufw allow out on "$ip_version" "$port_range"/udp 2>/dev/null
-  done
-
-  # Game TCP ports
-  for port_range in "${GAME_TCP_PORTS[@]}"; do
-    sudo ufw allow out on "$ip_version" "$port_range"/tcp 2>/dev/null
-  done
-}
-
-# Apply to both IPv4 and IPv6
-apply_rules "ipv4"
-apply_rules "ipv6"
+# Game ports (IPv4)
+sudo ufw allow out 7000:7500/udp
+sudo ufw allow out 10000:65535/udp
+sudo ufw allow out 30000:50000/udp
+sudo ufw allow out 10010:10030/udp
+sudo ufw allow out 20000:20100/udp
+sudo ufw allow out 1393/tcp
+sudo ufw allow out 7000:8000/udp
+sudo ufw allow out 8180:8181/tcp
+sudo ufw allow out 10000:10010/udp
+sudo ufw allow out 5222/tcp
+sudo ufw allow out 5795:5847/udp
+sudo ufw allow out 1024:1124/udp
+sudo ufw allow out 3216:3728/udp
+sudo ufw allow out 5000:5500/udp
+sudo ufw allow out 8088/tcp
+sudo ufw allow out 2099/tcp
+sudo ufw allow out 27000:27100/udp
+sudo ufw allow out 27014:27050/tcp
+sudo ufw allow out 30000:30100/udp
+sudo ufw allow out 5000:6000/udp
+sudo ufw allow out 8000/tcp
+sudo ufw allow out 8000/udp
 
 # Enable UFW
 echo "[+] Enabling UFW..."
