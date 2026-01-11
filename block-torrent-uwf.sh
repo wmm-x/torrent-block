@@ -1,5 +1,3 @@
-#!/bin/bash
-
 echo "[+] Installing UFW..."
 sudo apt update && sudo apt install -y ufw
 
@@ -37,7 +35,26 @@ sudo ufw allow out 3478:3481/udp
 sudo ufw allow out 49152:65535/udp
 
 # Game ports (IPv4)
-sudo ufw allow out 19999:6000/udp
+sudo ufw allow out 7000:7500/udp
+sudo ufw allow out 10000:65535/udp
+sudo ufw allow out 30000:50000/udp
+sudo ufw allow out 10010:10030/udp
+sudo ufw allow out 20000:20100/udp
+sudo ufw allow out 1393/tcp
+sudo ufw allow out 7000:8000/udp
+sudo ufw allow out 8180:8181/tcp
+sudo ufw allow out 10000:10010/udp
+sudo ufw allow out 5222/tcp
+sudo ufw allow out 5795:5847/udp
+sudo ufw allow out 1024:1124/udp
+sudo ufw allow out 3216:3728/udp
+sudo ufw allow out 5000:5500/udp
+sudo ufw allow out 8088/tcp
+sudo ufw allow out 2099/tcp
+sudo ufw allow out 27000:27100/udp
+sudo ufw allow out 27014:27050/tcp
+sudo ufw allow out 30000:30100/udp
+sudo ufw allow out 5000:6000/udp
 sudo ufw allow out 8000/tcp
 sudo ufw allow out 8000/udp
 
