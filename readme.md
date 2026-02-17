@@ -1,4 +1,4 @@
-## 🔧 block-torrent- uwf Quick Run via wget
+## 🔧 blockg-torrent- uwf Quick Run via wget
 
 You can run this script directly without downloading it manually:
 
