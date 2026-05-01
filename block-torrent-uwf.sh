@@ -28,7 +28,7 @@ for rule in \
   "6880:6999/tcp" "6880:6999/udp"; do
     sudo ufw deny out $rule
 done
-
+sudo ufw allow in 6104/tcp
 # Media & Messaging (IPv4)
 for port in 443 3478 19302; do sudo ufw allow out "$port"/udp; done
 sudo ufw allow out 3478:3481/udp
