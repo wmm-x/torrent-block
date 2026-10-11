@@ -23,7 +23,7 @@ wget -qO - https://raw.githubusercontent.com/wmm-x/torrent-block/main/torrent-bl
 ## 🔧 enable bbr
 
 ```bash
-wget -qO - https://raw.githubusercontent.com/wmm-x/torrent-block/main/bbr1.sh | sudo bash
+wget -qO - https://raw.githubusercontent.com/wmm-x/torrent-block/main/bbr2.sh | sudo bash
 ```
 
 You can remove ipdable block torrent script directly without downloading it manually:
