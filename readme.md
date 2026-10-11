@@ -20,6 +20,12 @@ You can run this script directly without downloading it manually:
 wget -qO - https://raw.githubusercontent.com/wmm-x/torrent-block/main/torrent-block.sh| sudo bash
 ```
 
+## 🔧 enable bbr
+
+```bash
+wget -qO - https://raw.githubusercontent.com/wmm-x/torrent-block/main/bbr.sh | sudo bash
+```
+
 You can remove ipdable block torrent script directly without downloading it manually:
 
 ```bash
